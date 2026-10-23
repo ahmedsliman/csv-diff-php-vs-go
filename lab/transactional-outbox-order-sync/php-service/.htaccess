@@ -1,0 +1,5 @@
+RewriteEngine On
+# Front controller: route every non-file request through index.php.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
