@@ -1,3 +1,3 @@
-module transactions-php-vs-golang
+module csv-diff-php-vs-go
 
 go 1.25
