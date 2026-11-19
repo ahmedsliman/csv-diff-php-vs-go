@@ -1,10 +1,10 @@
 # PHP vs Go vs Linux
 
-One task, three ways: compare two product CSV files with **6 million rows each** and find the new, removed and changed products.
+I'm comparing three ways to find new, removed and changed products in two CSV files with **6 million rows each**.
 
-## Results
+## Results so far
 
-Reported results for the generated test data; timings depend on the machine, tool versions and workload.
+These numbers are from the generated test files. They may change with different data, machines or versions of Go, PHP and the Linux tools.
 
 | | Time | Memory |
 |---|---|---|
@@ -14,13 +14,15 @@ Reported results for the generated test data; timings depend on the machine, too
 
 All three give the same answer: 1,000,000 new, 1,000,000 removed, 500,000 changed.
 
-## What I learned
+## What I'm learning
 
-- **Go** finished fastest in this benchmark, taking about half the time of PHP. Both use the same overall algorithm, but their parsing and data structures differ.
-- **PHP** used less memory in these results. That reflects these implementations, rather than a general rule about PHP and Go.
-- **Linux tools** trade temporary disk space and sorting for keeping the full dataset in memory. `sort` can spill to disk, but the reported 11 MB is not a reliable measure of the whole pipeline's peak memory.
+- Go took about half the time of PHP here. Both follow the same steps, but the code differs in how it reads and stores rows.
+- PHP used less memory here. I still need to try other ways of writing both versions before drawing bigger conclusions.
+- The Linux version uses temporary files, and `sort` can use disk when the data doesn't fit in memory. I also need a better memory measurement: the 11 MB above doesn't reliably cover all the commands running together.
 
-This compares three implementations on simple generated CSVs, not the languages in general. The PHP and shell versions assume unquoted, comma-separated fields.
+I'm still working on this. PHP already uses generators to read rows, but keeps the old file's data and some results in memory. Writing results as they're found might save more memory. I want to try that and see what happens to the time as well.
+
+The test files are simple CSVs without quoted fields. The PHP and shell versions rely on that.
 
 ## Try it
 
